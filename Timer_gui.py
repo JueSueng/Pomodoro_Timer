@@ -1,6 +1,6 @@
 import tkinter as tk
 
-second = 11
+second = 1500
 after_id = None
 
 def timer():
@@ -50,10 +50,37 @@ def pause():
     global after_id
     
     if after_id is not None:
-        window.after_cancel(after_id)
+        window.after_cancel(after_id)   
+
+    after_id = None
 
     resume_button.config(
         state="normal" 
+    )
+
+def reset():
+    global second
+    global after_id
+
+    second = 1500
+    if after_id is not None:
+        window.after_cancel(after_id)
+    after_id = None
+
+    timer_label.config(
+        text=f"{second//60:02}:{second%60:02}"
+    )
+
+    start_button.config(
+        state="normal"
+    )
+
+    pause_button.config(
+        state="disabled"
+    )
+
+    resume_button.config(
+        state="disabled"
     )
 
 window = tk.Tk()
@@ -94,5 +121,13 @@ resume_button = tk.Button(
 )
 
 resume_button.pack()
+
+reset_button = tk.Button(
+    window,
+    text="리셋",
+    command=reset
+)
+
+reset_button.pack()
 
 window.mainloop()
